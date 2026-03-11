@@ -1,0 +1,60 @@
+# ==================================================================
+# .gitignore cho Bakery Shop Project
+# ==================================================================
+
+# File cấu hình chứa thông tin nhạy cảm
+config/database.php
+config/vnpay_config.php
+
+# Thư mục uploads (ảnh sản phẩm do user upload)
+uploads/products/*
+uploads/temp/*
+!uploads/products/.gitkeep
+!uploads/temp/.gitkeep
+
+# File log
+*.log
+error_log
+debug.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Composer (nếu dùng)
+vendor/
+composer.lock
+
+# Node modules (nếu dùng npm)
+node_modules/
+
+# Cache
+cache/
+*.cache
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.tmp
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# ==================================================================
+# Lưu ý: File config/config.example.php nên được commit
+# để người khác biết cấu trúc cần thiết
+# ==================================================================

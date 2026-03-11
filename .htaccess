@@ -1,0 +1,129 @@
+# ==================================================================
+# .htaccess - Apache Configuration cho Bakery Shop
+# ==================================================================
+
+# Bật RewriteEngine cho URL thân thiện
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Chuyển hướng từ www sang non-www (hoặc ngược lại)
+    # RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    # RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+    
+    # Chặn truy cập trực tiếp vào file .git
+    RedirectMatch 404 /\.git
+</IfModule>
+
+# ==================================================================
+# BẢO MẬT
+# ==================================================================
+
+# Chặn directory listing
+Options -Indexes
+
+# Chặn truy cập các file nhạy cảm
+<FilesMatch "^(\.htaccess|\.htpasswd|\.git|composer\.json|composer\.lock|README\.md)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Bảo vệ file config
+<FilesMatch "config\.php|database\.php|vnpay_config\.php">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Ngăn chặn hiển thị lỗi PHP (PRODUCTION - Bỏ comment khi deploy)
+# php_flag display_errors Off
+# php_flag display_startup_errors Off
+
+# ==================================================================
+# BẢO MẬT CHỐNG INJECTION
+# ==================================================================
+
+# Chặn các ký tự nguy hiểm trong URL
+<IfModule mod_rewrite.c>
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+    RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC,OR]
+    RewriteCond %{QUERY_STRING} \=PHP[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12} [NC,OR]
+    RewriteCond %{QUERY_STRING} (\.\./|\.\.\\) [NC,OR]
+    RewriteCond %{QUERY_STRING} (localhost|loopback|127\.0\.0\.1) [NC,OR]
+    RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+    RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+    RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+    RewriteRule ^(.*)$ index.php [F,L]
+</IfModule>
+
+# ==================================================================
+# HIỆU NĂNG
+# ==================================================================
+
+# Bật nén GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
+</IfModule>
+
+# Cache static files
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS và JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ==================================================================
+# ERROR PAGES (Tùy chỉnh trang lỗi)
+# ==================================================================
+
+# ErrorDocument 400 /errors/400.php
+# ErrorDocument 401 /errors/401.php
+# ErrorDocument 403 /errors/403.php
+# ErrorDocument 404 /errors/404.php
+# ErrorDocument 500 /errors/500.php
+
+# ==================================================================
+# PHP SETTINGS (Cấu hình PHP - chỉ áp dụng nếu không dùng php.ini)
+# ==================================================================
+
+# Tăng giới hạn upload (cho ảnh sản phẩm)
+        #php_value upload_max_filesize 20M
+        #php_value post_max_size 25M
+        #php_value max_execution_time 300
+        #php_value max_input_time 300
+
+# Bật hiển thị lỗi khi DEVELOPMENT (TẮT khi PRODUCTION)
+        #php_flag display_errors On
+        #php_flag display_startup_errors On
+        #php_value error_reporting E_ALL
+
+# Timezone cho Việt Nam
+        #php_value date.timezone "Asia/Ho_Chi_Minh"
+
+# Session settings
+        #php_value session.cookie_httponly 1
+        #php_value session.cookie_secure 0  # Đổi thành 1 nếu dùng HTTPS
+
+# ==================================================================
+# CHẶN TRUY CẬP TỪ CÁC IP ĐÁNG NGỜ (Nếu cần)
+# ==================================================================
+
+# <Limit GET POST>
+#     Order Allow,Deny
+#     Deny from 123.456.789.0
+#     Allow from all
+# </Limit>
