@@ -37,121 +37,7 @@ $order_details = $order->getOrderDetails($order_info['order_id']);
 include '../../includes/layouts/header.php';
 ?>
 
-<style>
-    .success-page {
-        padding: 50px 0;
-        min-height: 60vh;
-    }
-    
-    .success-icon {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    
-    .success-icon i {
-        font-size: 100px;
-        color: #28a745;
-        animation: scaleIn 0.5s ease-in-out;
-    }
-    
-    @keyframes scaleIn {
-        0% { transform: scale(0); }
-        50% { transform: scale(1.2); }
-        100% { transform: scale(1); }
-    }
-    
-    .success-box {
-        background: white;
-        padding: 40px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        text-align: center;
-        max-width: 700px;
-        margin: 0 auto 30px;
-    }
-    
-    .success-box h2 {
-        color: #28a745;
-        font-size: 32px;
-        margin-bottom: 15px;
-    }
-    
-    .success-box p {
-        color: #666;
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-    
-    .order-code {
-        font-size: 24px;
-        font-weight: bold;
-        color: #667eea;
-        margin: 20px 0;
-        padding: 15px;
-        background: #f8f9fa;
-        border-radius: 8px;
-    }
-    
-    .order-info-box {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-    
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 0;
-        border-bottom: 1px solid #e1e8ed;
-    }
-    
-    .info-row:last-child {
-        border-bottom: none;
-    }
-    
-    .info-label {
-        color: #666;
-        font-weight: 500;
-    }
-    
-    .info-value {
-        color: #333;
-        font-weight: 600;
-    }
-    
-    .order-items {
-        margin-top: 20px;
-    }
-    
-    .order-item {
-        display: flex;
-        gap: 15px;
-        padding: 15px;
-        background: #f8f9fa;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-    
-    .order-item-image {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 5px;
-    }
-    
-    .order-item-info {
-        flex: 1;
-    }
-    
-    .action-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        margin-top: 30px;
-    }
-</style>
+<link rel="stylesheet" href="<?= url('user/css/order-success.css') ?>?v=<?= time() ?>">
 
 <div class="success-page">
     <div class="container">
@@ -205,7 +91,7 @@ include '../../includes/layouts/header.php';
                     
                     <div class="info-row">
                         <span class="info-label">Tổng tiền:</span>
-                        <span class="info-value text-danger" style="font-size: 20px;">
+                        <span class="info-value text-theme-price" style="font-size: 20px;">
                             <?= format_currency($order_info['total_amount']) ?>
                         </span>
                     </div>
@@ -261,7 +147,7 @@ include '../../includes/layouts/header.php';
                     </div>
                     
                     <div class="text-end">
-                        <strong class="text-danger"><?= format_currency($item['subtotal']) ?></strong>
+                        <strong class="text-theme-price"><?= format_currency($item['subtotal']) ?></strong>
                     </div>
                 </div>
                 <?php endforeach; ?>

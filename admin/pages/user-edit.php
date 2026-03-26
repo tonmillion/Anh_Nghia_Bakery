@@ -1,10 +1,10 @@
 <?php
 /**
  * Edit User page
- * File: admin/user-edit.php
+ * File: admin/pages/user-edit.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Sửa thông tin người dùng';
 
@@ -15,7 +15,7 @@ $user_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($user_id <= 0) {
     set_flash('error', 'Người dùng không tồn tại');
-    redirect(url('admin/users.php'));
+    redirect(url('admin/pages/users.php'));
 }
 
 // Lấy thông tin user
@@ -23,7 +23,7 @@ $user_info = $user->getUserById($user_id);
 
 if (!$user_info) {
     set_flash('error', 'Người dùng không tồn tại');
-    redirect(url('admin/users.php'));
+    redirect(url('admin/pages/users.php'));
 }
 
 $errors = [];
@@ -58,7 +58,7 @@ if (is_method('POST')) {
         if (empty($errors)) {
             if ($user->updateUser($user_id, $data)) {
                 set_flash ('success', 'Đã cập nhật thông tin người dùng');
-                redirect(url('admin/users.php'));
+                redirect(url('admin/pages/users.php'));
             } else {
                 $errors['general'] = 'Có lỗi xảy ra';
             }
@@ -82,7 +82,7 @@ if (is_method('POST')) {
         if (empty($errors)) {
             if ($user->resetPassword($user_id, $new_password)) {
                 set_flash ('success', 'Đã reset mật khẩu thành công');
-                redirect(url('admin/users.php?id=' . $user_id));
+                redirect(url('admin/pages/users.php?id=' . $user_id));
             } else {
                 $errors['general'] = 'Không thể reset mật khẩu';
             }
@@ -91,7 +91,7 @@ if (is_method('POST')) {
 }
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -101,13 +101,13 @@ include 'includes/header.php';
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?= url('admin/index.php') ?>">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="<?= url('admin/users.php') ?>">Người dùng</a></li>
+                    <li class="breadcrumb-item"><a href="<?= url('admin/pages/users.php') ?>">Người dùng</a></li>
                     <li class="breadcrumb-item active">Sửa</li>
                 </ol>
             </nav>
         </div>
         <div>
-            <a href="<?= url('admin/users.php') ?>" class="btn btn-secondary">
+            <a href="<?= url('admin/pages/users.php') ?>" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </a>
         </div>
@@ -281,7 +281,7 @@ include 'includes/header.php';
                     <h5 class="text-danger"><?= format_currency($total_spent) ?></h5>
                 </div>
                 
-                <a href="<?= url('admin/orders.php?user=' . $user_id) ?>" class="btn btn-sm btn-outline-primary w-100">
+                <a href="<?= url('admin/pages/orders.php?user=' . $user_id) ?>" class="btn btn-sm btn-outline-primary w-100">
                     <i class="fas fa-shopping-cart"></i> Xem đơn hàng
                 </a>
             </div>
@@ -289,4 +289,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

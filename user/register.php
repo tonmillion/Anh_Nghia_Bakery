@@ -16,6 +16,7 @@ $old_data = [];
 
 // Xử lý form đăng ký
 if (is_method('POST')) {
+    $is_ajax = isset($_POST['ajax']) ? true : false;
     // Lấy dữ liệu từ form
     $data = [
         'username' => sanitize($_POST['username'] ?? ''),
@@ -61,11 +62,24 @@ if (is_method('POST')) {
         $result = $user->register($data);
 
         if ($result['success']) {
+            if ($is_ajax) {
+                if (ob_get_level()) ob_end_clean();
+                header('Content-Type: application/json');
+                echo json_encode(['success' => true]);
+                exit;
+            }
             set_flash('success', 'Đăng ký thành công! Vui lòng đăng nhập');
             redirect(url('user/login.php'));
         } else {
             $errors['general'] = $result['message'];
         }
+    }
+
+    if ($is_ajax) {
+        if (ob_get_level()) ob_end_clean();
+        header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'errors' => $errors]);
+        exit;
     }
 }
 
@@ -80,70 +94,7 @@ $page_title = 'Đăng ký tài khoản';
     <title><?= $page_title ?> - <?= SITE_NAME ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= asset('css/style.css') ?>">
-    <style>
-        .auth-container {
-            max-width: 500px;
-            margin: 50px auto;
-        }
-        .auth-card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .auth-header h1 {
-            color: #ff6b6b;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .form-label {
-            font-weight: 500;
-            color: #333;
-        }
-        .form-control:focus {
-            border-color: #ff6b6b;
-            box-shadow: 0 0 0 0.2rem rgba(255, 107, 107, 0.25);
-        }
-        .btn-register {
-            background: #ff6b6b;
-            border: none;
-            color: white;
-            padding: 12px;
-            font-size: 16px;
-            font-weight: 500;
-            width: 100%;
-            border-radius: 5px;
-        }
-        .btn-register:hover {
-            background: #ff5252;
-            color: white;
-        }
-        .auth-footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-        }
-        .auth-footer a {
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-        .error-message {
-            color: #dc3545;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .required {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="<?= url('user/css/register.css') ?>?v=<?= time() ?>">
 </head>
 <body>
 
@@ -278,7 +229,7 @@ $page_title = 'Đăng ký tài khoản';
             </form>
 
             <div class="auth-footer">
-                <p>Đã có tài khoản? <a href="<?= url('user/login.php') ?>">Đăng nhập ngay</a></p>
+                <p>Đã có tài khoản? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập ngay</a></p>
                 <p><a href="<?= url('index.php') ?>">← Quay về trang chủ</a></p>
             </div>
         </div>

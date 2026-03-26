@@ -1,0 +1,184 @@
+.success-page {
+        padding: 50px 0;
+        min-height: 60vh;
+        background-color: var(--light-beige);
+    }
+    
+    .success-icon {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    
+    .success-icon i {
+        font-size: 100px;
+        color: var(--dark-pink);
+        animation: scaleIn 0.5s ease-in-out;
+    }
+    
+    @keyframes scaleIn {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    
+    .success-box {
+        background: var(--wave-beige);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.1);
+        border: 1px solid rgba(94, 58, 33, 0.1);
+        text-align: center;
+        max-width: 700px;
+        margin: 0 auto 30px;
+    }
+    
+    .success-box h2 {
+        color: var(--dark-orange);
+        font-size: 32px;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+    
+    .success-box p {
+        color: var(--dark-brown);
+        font-size: 16px;
+        margin-bottom: 15px;
+        opacity: 0.9;
+    }
+    
+    .order-code {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--dark-orange);
+        margin: 25px auto;
+        padding: 15px 40px;
+        background: white;
+        border-radius: 30px;
+        border: 2px dashed var(--dark-orange);
+        display: inline-block;
+    }
+    
+    .order-info-box {
+        background: var(--wave-beige);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.1);
+        border: 1px solid rgba(94, 58, 33, 0.1);
+        margin-bottom: 25px;
+        height: calc(100% - 25px);
+    }
+    
+    .order-info-box h4 {
+        color: var(--dark-brown);
+        font-weight: bold;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px dashed rgba(94, 58, 33, 0.2);
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px dashed rgba(94, 58, 33, 0.2);
+        font-size: 16px;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        color: var(--dark-brown);
+        font-weight: 500;
+        opacity: 0.8;
+    }
+    
+    .info-value {
+        color: var(--dark-brown);
+        font-weight: bold;
+    }
+    
+    .order-items {
+        margin-top: 20px;
+    }
+    
+    .order-item {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        background: white;
+        border-radius: 15px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(94, 58, 33, 0.1);
+        box-shadow: 0 2px 5px rgba(94, 58, 33, 0.05);
+    }
+    
+    .order-item-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    
+    .order-item-info {
+        flex: 1;
+    }
+    
+    .order-item-info h6 {
+        font-weight: bold;
+        color: var(--dark-brown);
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+    
+    .action-buttons .btn {
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 12px 25px;
+        transition: all 0.3s;
+    }
+    
+    .action-buttons .btn-primary {
+        background: var(--dark-orange);
+        color: white;
+        border: none;
+    }
+    .action-buttons .btn-primary:hover {
+        background: var(--dark-brown);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.2);
+    }
+    
+    .action-buttons .btn-outline-primary {
+        background: white;
+        color: var(--dark-orange);
+        border: 2px solid var(--dark-orange);
+    }
+    .action-buttons .btn-outline-primary:hover {
+        background: var(--dark-orange);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .action-buttons .btn-outline-secondary {
+        background: white;
+        color: var(--dark-brown);
+        border: 2px solid var(--dark-brown);
+    }
+    .action-buttons .btn-outline-secondary:hover {
+        background: var(--dark-brown);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    .text-theme-price {
+        color: var(--dark-orange) !important;
+        font-weight: 900;
+    }

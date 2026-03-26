@@ -35,75 +35,7 @@ $total_pages = ceil($total / $items_per_page);
 include '../../includes/layouts/header.php';
 ?>
 
-<style>
-    .search-page {
-        padding: 30px 0;
-        min-height: 60vh;
-    }
-    
-    .search-header {
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-    }
-    
-    .search-box-large {
-        max-width: 600px;
-        margin: 20px auto;
-        position: relative;
-    }
-    
-    .search-box-large input {
-        padding: 15px 60px 15px 20px;
-        border: 2px solid #e1e8ed;
-        border-radius: 30px;
-        font-size: 16px;
-        width: 100%;
-    }
-    
-    .search-box-large input:focus {
-        border-color: #667eea;
-        outline: none;
-    }
-    
-    .search-box-large button {
-        position: absolute;
-        right: 5px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #667eea;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        font-size: 18px;
-        transition: all 0.3s;
-    }
-    
-    .search-box-large button:hover {
-        background: #5568d3;
-        transform: translateY(-50%) scale(1.05);
-    }
-    
-    .search-results-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-    
-    .keyword-highlight {
-        color: #667eea;
-        font-weight: bold;
-    }
-</style>
+<link rel="stylesheet" href="<?= url('user/css/search.css') ?>?v=<?= time() ?>">
 
 <div class="search-page">
     <div class="container">
@@ -119,8 +51,9 @@ include '../../includes/layouts/header.php';
                            name="q" 
                            placeholder="Nhập tên sản phẩm cần tìm..." 
                            value="<?= htmlspecialchars($keyword) ?>"
-                           autofocus>
-                    <button type="submit">
+                           autofocus
+                           style="border-color: var(--dark-orange);">
+                    <button type="submit" style="background: var(--dark-orange);">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>

@@ -1,10 +1,10 @@
 <?php
 /**
  * Order detail page
- * File: admin/order-detail.php
+ * File: admin/pages/order-detail.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Chi tiết đơn hàng';
 
@@ -15,7 +15,7 @@ $order_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
 if ($order_id <= 0) {
     set_flash('error', 'Đơn hàng không tồn tại');
-    redirect(url('admin/orders.php'));
+    redirect(url('admin/pages/orders.php'));
 }
 
 // Lấy thông tin đơn hàng
@@ -24,7 +24,7 @@ $order_details = $order->getOrderDetails($order_id);
 
 if (!$order_info) {
     set_flash('error', 'Đơn hàng không tồn tại');
-    redirect(url('admin/orders.php'));
+    redirect(url('admin/pages/orders.php'));
 }
 
 // Xử lý cập nhật trạng thái
@@ -33,7 +33,7 @@ if (isset($_POST['update_status'])) {
 
     if ($order->updateOrderStatus($order_id, $status)) {
         set_flash('success', 'Đã cập nhật trạng thái đơn hàng');
-        redirect(url('admin/order-detail.php?id=' . $order_id));
+        redirect(url('admin/pages/order-detail.php?id=' . $order_id));
     } else {
         set_flash('error', 'Không thể cập nhật trạng thái');
     }
@@ -45,12 +45,12 @@ if (isset($_POST['update_payment'])) {
 
     if ($order->updatePaymentStatus($order_id, $payment_status)) {
         set_flash('success', 'Đã cập nhật trạng thái thanh toán');
-        redirect(url('admin/order-detail.php?id=' . $order_id));
+        redirect(url('admin/pages/order-detail.php?id=' . $order_id));
     }
 }
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -60,13 +60,13 @@ include 'includes/header.php';
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?= url('admin/index.php') ?>">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="<?= url('admin/orders.php') ?>">Đơn hàng</a></li>
+                    <li class="breadcrumb-item"><a href="<?= url('admin/pages/orders.php') ?>">Đơn hàng</a></li>
                     <li class="breadcrumb-item active">#<?= $order_info['order_code'] ?></li>
                 </ol>
             </nav>
         </div>
         <div>
-            <a href="<?= url('admin/orders.php') ?>" class="btn btn-secondary">
+            <a href="<?= url('admin/pages/orders.php') ?>" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Quay lại
             </a>
             <button onclick="window.print()" class="btn btn-info">
@@ -138,7 +138,7 @@ include 'includes/header.php';
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered">
-                        <thead class="table-light">
+                        <thead>
                             <tr>
                                 <th>Sản phẩm</th>
                                 <th width="120">Đơn giá</th>
@@ -226,7 +226,7 @@ include 'includes/header.php';
                     <tr>
                         <th>Trạng thái:</th>
                         <td>
-                            <span class="badge bg-<?= $order_info['payment_status'] === 'paid' ? 'success' : 'warning' ?>">
+                            <span class="badge rounded-pill bg-<?= $order_info['payment_status'] === 'paid' ? 'success' : 'warning' ?>">
                                 <?= PAYMENT_STATUS[$order_info['payment_status']] ?? $order_info['payment_status'] ?>
                             </span>
                         </td>
@@ -263,17 +263,7 @@ include 'includes/header.php';
     </div>
 </div>
 
-<style>
-@media print {
-    .sidebar, .top-bar, .btn, .page-header nav, .card-header {
-        display: none !important;
-    }
-    .card {
-        border: none !important;
-        box-shadow: none !important;
-    }
-}
-</style>
+<link rel="stylesheet" href="<?= url('admin/css/order-detail.css') ?>?v=<?= time() ?>">
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
 

@@ -1,10 +1,10 @@
 <?php
 /**
  * Quản lý danh mục
- * File: admin/categories.php
+ * File: admin/pages/categories.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Quản lý danh mục';
 
@@ -23,7 +23,7 @@ if (isset($_POST['add_category'])) {
     } else {
         set_flash ('error', 'Không thể thêm danh mục');
     }
-    redirect(url('admin/categories.php'));
+    redirect(url('admin/pages/categories.php'));
 }
 
 // Xử lý cập nhật danh mục
@@ -40,7 +40,7 @@ if (isset($_POST['update_category'])) {
     } else {
         set_flash('error', 'Không thể cập nhật danh mục');
     }
-    redirect(url('admin/categories.php'));
+    redirect(url('admin/pages/categories.php'));
 }
 
 // Xử lý xóa danh mục
@@ -52,7 +52,7 @@ if (isset($_GET['delete'])) {
     } else {
         set_flash('error', 'Không thể xóa danh mục');
     }
-    redirect(url('admin/categories.php'));
+    redirect(url('admin/pages/categories.php'));
 }
 
 // Lấy danh sách danh mục
@@ -66,7 +66,7 @@ if (isset($_GET['edit'])) {
 }
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -131,7 +131,7 @@ include 'includes/header.php';
                         </button>
                         
                         <?php if ($edit_category): ?>
-                            <a href="<?= url('admin/categories.php') ?>" class="btn btn-secondary">
+                            <a href="<?= url('admin/pages/categories.php') ?>" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Hủy
                             </a>
                         <?php endif; ?>
@@ -175,14 +175,14 @@ include 'includes/header.php';
                                     <td><strong><?= htmlspecialchars($cat['category_name']) ?></strong></td>
                                     <td><?= htmlspecialchars(excerpt($cat['description'], 50)) ?></td>
                                     <td class="text-center">
-                                        <span class="badge bg-primary"><?= $cat['product_count'] ?? 0 ?></span>
+                                        <span class="badge rounded-pill bg-primary"><?= $cat['product_count'] ?? 0 ?></span>
                                     </td>
                                     <td class="text-center"><?= $cat['display_order'] ?></td>
                                     <td>
                                         <?php if ($cat['is_active']): ?>
-                                            <span class="badge bg-success">Hiển thị</span>
+                                            <span class="badge rounded-pill bg-success">Hiển thị</span>
                                         <?php else: ?>
-                                            <span class="badge bg-secondary">Ẩn</span>
+                                            <span class="badge rounded-pill bg-secondary">Ẩn</span>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -225,4 +225,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

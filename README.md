@@ -10,17 +10,21 @@ bakery-shop/
 │   ├── js/                         # JavaScript riêng cho admin
 │   ├── includes/                   # Các file include cho admin
 │   │   ├── header.php             # Header admin
-│   │   ├── sidebar.php            # Sidebar menu
+│   │   ├── sidebar.php            # Sidebar menu                    cần tách ra
 │   │   └── footer.php             # Footer admin
 │   ├── pages/                      # Các trang chức năng admin
-│   │   ├── dashboard.php          # Trang tổng quan
+│   │   ├── dashboard.php          # Trang tổng quan                 là trang index
 │   │   ├── products.php           # Quản lý sản phẩm
+│   │   ├── product-add.php        # thêm sản phẩm 
+│   │   ├── product-edit.php       # sửa sản phẩm    
 │   │   ├── categories.php         # Quản lý danh mục
 │   │   ├── orders.php             # Quản lý đơn hàng
-│   │   ├── customers.php          # Quản lý khách hàng
-│   │   └── reports.php            # Báo cáo thống kê
+|   |   ├── order-detail.php       # xem chi tiết đơn hàng
+│   │   ├── users.php              # Quản lý khách hàng
+│   │   ├── user-edit.php          # sửa thông tin khách hàng
+│   │   └── reports.php            # Báo cáo thống kê               chưa có
 │   ├── index.php                   # Trang chủ admin (redirect to dashboard)
-│   └── login.php                   # Đăng nhập admin
+│   └── login.php                   # Đăng nhập admin               trong user/
 │
 ├── assets/                         # TÀI NGUYÊN DÙNG CHUNG (CSS, JS, Images)
 │   ├── css/                        # CSS cho front-end
@@ -40,19 +44,23 @@ bakery-shop/
 ├── config/                         # CẤU HÌNH HỆ THỐNG
 │   ├── database.php               # Kết nối database
 │   ├── config.php                 # Cấu hình chung (site name, URL...)
-│   └── vnpay_config.php           # Cấu hình VNPay
+│   └── vnpay_config.php           # Cấu hình VNPay               trong config.php
 │
 ├── includes/                       # FILE DÙNG CHUNG (Classes, Functions)
 │   ├── classes/                    # OOP Classes
 │   │   ├── User.php               # Class xử lý user
+│   │   ├── Category.php           # Class xử lý danh mục
+│   │   ├── VNPay.php              # Class xử lý VNPay
 │   │   ├── Product.php            # Class xử lý product
 │   │   ├── Cart.php               # Class xử lý giỏ hàng
 │   │   ├── Order.php              # Class xử lý đơn hàng
 │   │   └── Database.php           # Class kết nối DB (nếu dùng OOP)
+│   ├── layouts/
+│   │   ├── header.php             # Header cho user
+│   │   ├── footer.php             # Footer cho user
 │   ├── functions.php              # Các hàm tiện ích chung
 │   ├── session.php                # Quản lý session
-│   └── header.php                 # Header cho user
-│   └── footer.php                 # Footer cho user
+│   └── init.php                   # Khởi tạo hệ thống
 │
 ├── user/                           # PHÂN HỆ KHÁCH HÀNG (Front-end)
 │   ├── css/                        # CSS riêng cho user (nếu cần)
@@ -61,8 +69,13 @@ bakery-shop/
 │   │   ├── products.php           # Danh sách sản phẩm
 │   │   ├── product-detail.php     # Chi tiết sản phẩm
 │   │   ├── cart.php               # Giỏ hàng
+│   │   ├── cart-add.php           # Thêm sản phẩm vào giỏ hàng
 │   │   ├── checkout.php           # Thanh toán
-│   │   ├── order-history.php      # Lịch sử đơn hàng
+│   │   ├── order.php              # Lịch sử đơn hàng
+│   │   ├── order-success.php      # Thông báo đặt hàng thành công
+│   │   ├── order-cancel.php       # Hủy đơn hàng
+│   │   ├── payment-return.php     # Trả về từ VNPay
+│   │   ├── search.php             # Tìm kiếm sản phẩm
 │   │   └── account.php            # Thông tin tài khoản
 │   ├── login.php                   # Đăng nhập user
 │   ├── register.php                # Đăng ký user
@@ -80,8 +93,8 @@ bakery-shop/
 │
 ├── .htaccess                       # Cấu hình Apache (URL rewrite, security)
 ├── index.php                       # TRANG CHỦ WEBSITE
-├── about.php                       # Trang giới thiệu
-├── contact.php                     # Trang liên hệ
+├── about.php                       # Trang giới thiệu                còn thiếu
+├── contact.php                     # Trang liên hệ                   còn thiếu
 └── README.md                       # File này - Hướng dẫn dự án
 
 ```

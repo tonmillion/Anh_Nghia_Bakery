@@ -1,10 +1,10 @@
 <?php
 /**
  * Users management
- * File: admin/users.php
+ * File: admin/pages/users.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Quản lý người dùng';
 
@@ -24,7 +24,7 @@ if (isset($_GET['delete'])) {
             set_flash('error', 'Không thể xóa người dùng');
         }
     }
-    redirect(url('admin/users.php'));
+    redirect(url('admin/pages/users.php'));
 }
 
 // Xử lý kích hoạt/ vô hiệu hóa
@@ -44,14 +44,14 @@ if (isset($_GET['toggle'])) {
     if ($stmt->execute([$new_status, $user_id])) {
         set_flash('success', $new_status ? 'Đã kích hoạt tài khoản' : 'Đã vô hiệu hóa tài khoản');
     }
-    redirect(url('admin/users.php'));
+    redirect(url('admin/pages/users.php'));
 }
 
 // Lấy danh sách người dùng
 $users = $user->getAllUsers(100, 0);
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -98,22 +98,22 @@ include 'includes/header.php';
                         <td><?= htmlspecialchars($u['phone'] ?? 'N/A') ?></td>
                         <td>
                             <?php if ($u['role'] === 'admin'): ?>
-                                <span class="badge bg-danger">Admin</span>
+                                <span class="badge rounded-pill bg-danger">Admin</span>
                             <?php else: ?>
-                                <span class="badge bg-primary">Customer</span>
+                                <span class="badge rounded-pill bg-primary">Customer</span>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($u['is_active']): ?>
-                                <span class="badge bg-success">Hoạt động</span>
+                                <span class="badge rounded-pill bg-success">Hoạt động</span>
                             <?php else: ?>
-                                <span class="badge bg-secondary">Vô hiệu</span>
+                                <span class="badge rounded-pill bg-secondary">Vô hiệu</span>
                             <?php endif; ?>
                         </td>
                         <td><?= format_date($u['created_at'], 'd/m/Y') ?></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="<?= url('admin/user-edit.php?id=' . $u['user_id']) ?>" 
+                                <a href="<?= url('admin/pages/user-edit.php?id=' . $u['user_id']) ?>" 
                                    class="btn btn-info" 
                                    title="Sửa">
                                     <i class="fas fa-edit"></i>
@@ -147,4 +147,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -1,0 +1,30 @@
+.admin-footer {
+    background-color: var(--light-beige, #FFF8E7);
+    padding: 20px 0;
+    border-top: 1px solid rgba(94, 58, 33, 0.1);
+    margin-top: 50px;
+    margin-left: 260px;
+    transition: all 0.3s;
+}
+
+.main-content.expanded .admin-footer {
+    margin-left: 70px;
+}
+
+.footer-text {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.footer-text strong {
+    color: #2c3e50;
+}
+
+.footer-text i.fa-heart {
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}

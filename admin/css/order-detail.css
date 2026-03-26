@@ -1,0 +1,9 @@
+@media print {
+    .sidebar, .top-bar, .btn, .page-header nav, .card-header {
+        display: none !important;
+    }
+    .card {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}

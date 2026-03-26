@@ -1,0 +1,133 @@
+/* Bakery Theme Styling */
+    .account-page {
+        padding: 50px 0;
+        min-height: 60vh;
+        background-color: var(--light-beige);
+    }
+    .account-header {
+        background: var(--wave-beige);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: inset 0 0 15px rgba(94, 58, 33, 0.05);
+        margin-bottom: 30px;
+        border: 1px solid rgba(94, 58, 33, 0.1);
+    }
+    .account-header h2 {
+        color: var(--dark-brown);
+        font-weight: bold;
+    }
+    .account-header p {
+        color: var(--dark-brown);
+        font-size: 16px;
+    }
+    .account-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 15px 50px;
+    }
+    .account-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.08);
+        padding: 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(94, 58, 33, 0.1);
+    }
+    .account-card h4 {
+        color: var(--dark-brown);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px dashed rgba(94, 58, 33, 0.2);
+        font-weight: bold;
+    }
+    .nav-pills {
+        background: white;
+        padding: 10px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.05);
+        border: 1px solid rgba(94, 58, 33, 0.1);
+        gap: 5px;
+    }
+    .nav-pills .nav-link {
+        color: var(--dark-brown);
+        font-weight: bold;
+        border-radius: 15px;
+        padding: 12px 20px;
+        transition: all 0.3s;
+    }
+    .nav-pills .nav-link:hover {
+        background: var(--wave-beige);
+        color: var(--dark-orange);
+    }
+    .nav-pills .nav-link.active {
+        background: var(--dark-orange);
+        color: white;
+        box-shadow: 0 3px 10px rgba(230, 126, 34, 0.3);
+    }
+    .badge-role {
+        background: var(--wave-beige);
+        color: var(--dark-orange);
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        border: 1px solid var(--dark-orange);
+        display: inline-block;
+    }
+    .form-control {
+        border-radius: 15px;
+        border: 2px solid rgba(94, 58, 33, 0.1);
+        padding: 12px 20px;
+        transition: all 0.3s;
+        background: white;
+        color: var(--dark-brown);
+    }
+    .form-control:focus {
+        border-color: var(--dark-orange);
+        box-shadow: 0 0 0 0.25rem rgba(230, 126, 34, 0.25);
+    }
+    .form-control:disabled {
+        background-color: var(--wave-beige);
+        opacity: 0.8;
+    }
+    .form-label {
+        font-weight: bold;
+        color: var(--dark-brown);
+    }
+    .btn-edit {
+        background: var(--dark-orange);
+        border: none;
+        color: white;
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 12px 25px;
+        transition: all 0.3s;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .btn-edit:hover {
+        background: var(--dark-brown);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.2);
+    }
+    .table {
+        color: var(--dark-brown);
+    }
+    .table thead th {
+        border-bottom: 2px dashed rgba(94, 58, 33, 0.2);
+        color: var(--dark-brown);
+    }
+    
+    .btn-outline-danger {
+        color: var(--dark-pink);
+        border-color: var(--dark-pink);
+        border-radius: 30px;
+        font-weight: bold;
+        padding: 10px 25px;
+    }
+    .btn-outline-danger:hover {
+        background-color: var(--dark-pink);
+        color: white;
+        border-color: var(--dark-pink);
+    }

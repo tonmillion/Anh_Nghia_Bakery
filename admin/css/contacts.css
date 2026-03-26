@@ -1,0 +1,167 @@
+.stats-row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-card {
+        flex: 1;
+        min-width: 200px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid transparent;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card.active {
+        border-color: #667eea;
+        background: #f0f4ff;
+    }
+    
+    .stat-card .stat-icon {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+    
+    .stat-card.all .stat-icon { color: #667eea; }
+    .stat-card.new .stat-icon { color: #f39c12; }
+    .stat-card.read .stat-icon { color: #3498db; }
+    .stat-card.replied .stat-icon { color: #27ae60; }
+    .stat-card.closed .stat-icon { color: #95a5a6; }
+    
+    .stat-card .stat-number {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .stat-card .stat-label {
+        color: #7f8c8d;
+        font-size: 14px;
+    }
+    
+    .contact-item {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        margin-bottom: 15px;
+        transition: all 0.3s;
+    }
+    
+    .contact-item:hover {
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .contact-item.unread {
+        border-left: 4px solid #f39c12;
+        background: #fffbf0;
+    }
+    
+    .contact-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+        gap: 15px;
+    }
+    
+    .contact-info h5 {
+        margin: 0 0 5px 0;
+        color: #2c3e50;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    
+    .contact-meta {
+        display: flex;
+        gap: 15px;
+        color: #7f8c8d;
+        font-size: 14px;
+        flex-wrap: wrap;
+    }
+    
+    .contact-meta i {
+        margin-right: 5px;
+    }
+    
+    .contact-subject {
+        font-size: 16px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 10px;
+    }
+    
+    .contact-message {
+        color: #555;
+        line-height: 1.6;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .contact-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .admin-note-section {
+        margin-top: 15px;
+        padding: 15px;
+        background: #e8f5e9;
+        border-radius: 8px;
+        border-left: 4px solid #27ae60;
+    }
+    
+    .admin-note-section h6 {
+        color: #27ae60;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+    
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .status-badge.new {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-badge.read {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .status-badge.replied {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-badge.closed {
+        background: #e2e3e5;
+        color: #383d41;
+    }
+    
+    .modal-header {
+        background: var(--dark-orange);
+        color: white;
+    }
+    
+    .modal-header .btn-close {
+        filter: brightness(0) invert(1);
+    }

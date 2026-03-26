@@ -20,6 +20,23 @@ if (is_method('POST')) {
     $cart = new Cart();
     $result = $cart->addToCart($product_id, $quantity);
 
+    if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' || isset($_POST['ajax'])) {
+        $cart_count = 0;
+        if (isset($_SESSION['cart'])) {
+            foreach ($_SESSION['cart'] as $item) {
+                $cart_count += $item['quantity'];
+            }
+        }
+        if (ob_get_level()) ob_end_clean();
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => $result['success'],
+            'message' => $result['message'],
+            'cart_count' => $cart_count
+        ]);
+        exit;
+    }
+
     if ($result['success']) {
         set_flash('success', $result['message']);
     } else {

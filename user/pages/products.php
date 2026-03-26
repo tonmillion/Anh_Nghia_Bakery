@@ -43,7 +43,7 @@ $order_by = match($sort) {
 
 // Lấy sản phẩm
 $product = new Product();
-$items_per_page = ITEMS_PER_PAGE;
+$items_per_page = 9; // Display 9 products per page for a 3x3 grid
 $offset = ($current_page - 1) * $items_per_page;
 $products = $product->getProducts($items_per_page, $offset, $filters, $order_by);
 
@@ -65,159 +65,7 @@ $categories = $category->getCategoriesWithCount($category_id);
 include '../../includes/layouts/header.php';
 ?>
 
-<style>
-    .products-page {
-        padding: 30px 0;
-    }
-    
-    .sidebar {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-    
-    .sidebar h5 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #667eea;
-    }
-    
-    .category-list {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .category-list li {
-        margin-bottom: 10px;
-    }
-    
-    .category-list a {
-        color: #333;
-        text-decoration: none;
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 12px;
-        border-radius: 5px;
-        transition: all 0.3s;
-    }
-    
-    .category-list a:hover,
-    .category-list a.active {
-        background: #667eea;
-        color: white;
-    }
-    
-    .products-header {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-    }
-    
-    .products-toolbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-    }
-    
-    .result-count {
-        font-size: 16px;
-        color: #666;
-    }
-    
-    .sort-dropdown select {
-        padding: 8px 15px;
-        border: 2px solid #e1e8ed;
-        border-radius: 5px;
-        outline: none;
-    }
-    
-    .sort-dropdown select:focus {
-        border-color: #667eea;
-    }
-    
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-    
-    .no-products {
-        text-align: center;
-        padding: 60px 20px;
-        background: white;
-        border-radius: 10px;
-    }
-    
-    .no-products i {
-        font-size: 80px;
-        color: #ccc;
-        margin-bottom: 20px;
-    }
-    
-    /* Pagination */
-    .pagination {
-        justify-content: center;
-        margin-top: 30px;
-    }
-    
-    .page-link {
-        color: #667eea;
-    }
-    
-    .page-link:hover {
-        background: #667eea;
-        color: white;
-    }
-    
-    .page-item.active .page-link {
-        background: #667eea;
-        border-color: #667eea;
-    }
-
-
-
-
-
-
-    .product-card {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background: #f8f9fa;
-}
-
-.product-info {
-    padding: 15px;
-}
-
-
-
-
-
-
-
-</style>
+<link rel="stylesheet" href="<?= url('user/css/products.css') ?>?v=<?= time() ?>">
 
 <div class="products-page">
     <div class="container">
@@ -289,14 +137,26 @@ include '../../includes/layouts/header.php';
                             Hiển thị <strong><?= count($products) ?></strong> trên <strong><?= $total ?></strong> sản phẩm
                         </div>
                         
-                        <div class="sort-dropdown">
-                            <select id="sortSelect" onchange="sortProducts(this.value)">
-                                <option value="newest" <?= $sort === 'newest' ? 'selected' : '' ?>>Mới nhất</option>
-                                <option value="popular" <?= $sort === 'popular' ? 'selected' : '' ?>>Bán chạy</option>
-                                <option value="price_asc" <?= $sort === 'price_asc' ? 'selected' : '' ?>>Giá: Thấp → Cao</option>
-                                <option value="price_desc" <?= $sort === 'price_desc' ? 'selected' : '' ?>>Giá: Cao → Thấp</option>
-                                <option value="name" <?= $sort === 'name' ? 'selected' : '' ?>>Tên: A → Z</option>
-                            </select>
+                        <div class="sort-dropdown custom-sort-dropdown dropdown">
+                            <button class="btn w-100 d-flex justify-content-between align-items-center form-select-custom" type="button" id="sortDropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php
+                                    $sortLabels = [
+                                        'newest' => 'Mới nhất',
+                                        'popular' => 'Bán chạy',
+                                        'price_asc' => 'Giá: Thấp → Cao',
+                                        'price_desc' => 'Giá: Cao → Thấp',
+                                        'name' => 'Tên: A → Z'
+                                    ];
+                                    echo isset($sortLabels[$sort]) ? $sortLabels[$sort] : 'Mới nhất';
+                                ?>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end w-100 shadow-sm" aria-labelledby="sortDropdownMenu">
+                                <li><a class="dropdown-item <?= $sort === 'newest' ? 'active' : '' ?>" href="#" onclick="event.preventDefault(); sortProducts('newest')">Mới nhất</a></li>
+                                <li><a class="dropdown-item <?= $sort === 'popular' ? 'active' : '' ?>" href="#" onclick="event.preventDefault(); sortProducts('popular')">Bán chạy</a></li>
+                                <li><a class="dropdown-item <?= $sort === 'price_asc' ? 'active' : '' ?>" href="#" onclick="event.preventDefault(); sortProducts('price_asc')">Giá: Thấp → Cao</a></li>
+                                <li><a class="dropdown-item <?= $sort === 'price_desc' ? 'active' : '' ?>" href="#" onclick="event.preventDefault(); sortProducts('price_desc')">Giá: Cao → Thấp</a></li>
+                                <li><a class="dropdown-item <?= $sort === 'name' ? 'active' : '' ?>" href="#" onclick="event.preventDefault(); sortProducts('name')">Tên: A → Z</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -323,12 +183,12 @@ include '../../includes/layouts/header.php';
                             </a>
                             
                             <div class="product-info">
-                                <h6 class="product-name">
+                                <div class="product-name">
                                     <a href="<?= url('user/pages/product-detail.php?id=' . $p['product_id']) ?>" 
                                        class="text-decoration-none text-dark">
-                                        <?= htmlspecialchars($p['product_name']) ?>
+                                        <?= mb_strtoupper(htmlspecialchars($p['product_name']), 'UTF-8') ?>
                                     </a>
-                                </h6>
+                                </div>
                                 
                                 <div class="product-price">
                                     <?= format_currency($p['price']) ?>

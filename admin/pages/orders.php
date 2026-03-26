@@ -1,10 +1,10 @@
 <?php
 /**
  * Orders management
- * File: admin/orders.php
+ * File: admin/pages/orders.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Quản lý đơn hàng';
 
@@ -20,7 +20,7 @@ if (isset($_POST['update_status'])) {
     } else {
         set_flash('error', 'Không thể cập nhật trạng thái đơn hàng');
     }
-    redirect(url('admin/orders.php'));
+    redirect(url('admin/pages/orders.php'));
 }
 
 // Filter
@@ -42,7 +42,7 @@ while ($row = $stmt->fetch()) {
 }
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -63,12 +63,12 @@ include 'includes/header.php';
 <div class="card mb-4">
     <div class="card-body">
         <div class="btn-group" role="group">
-            <a href="<?= url('admin/orders.php') ?>" 
+            <a href="<?= url('admin/pages/orders.php') ?>" 
                class="btn btn-outline-primary <?= !$filter_status ? 'active' : '' ?>">
                 Tất cả (<?= count($orders) ?>)
             </a>
             <?php foreach (ORDER_STATUS as $key => $label): ?>
-                <a href="<?= url('admin/orders.php?status=' . $key) ?>" 
+                <a href="<?= url('admin/pages/orders.php?status=' . $key) ?>" 
                    class="btn btn-outline-primary <?= $filter_status === $key ? 'active' : '' ?>">
                     <?= $label ?> (<?= $status_counts[$key] ?? 0 ?>)
                 </a>
@@ -100,7 +100,7 @@ include 'includes/header.php';
                     <?php foreach ($orders as $o): ?>
                     <tr>
                         <td>
-                            <a href="<?= url('admin/order-detail.php?id=' . $o['order_id']) ?>">
+                            <a href="<?= url('admin/pages/order-detail.php?id=' . $o['order_id']) ?>">
                                 <strong><?= htmlspecialchars($o['order_code']) ?></strong>
                             </a>
                         </td>
@@ -108,7 +108,7 @@ include 'includes/header.php';
                         <td><?= htmlspecialchars($o['shipping_phone']) ?></td>
                         <td><strong><?= format_currency($o['total_amount']) ?></strong></td>
                         <td>
-                            <span class="badge bg-<?= $o['payment_status'] === 'paid' ? 'success' : 'warning' ?>">
+                            <span class="badge rounded-pill bg-<?= $o['payment_status'] === 'paid' ? 'success' : 'warning' ?>">
                                 <?= PAYMENT_STATUS[$o['payment_status']] ?? $o['payment_status'] ?>
                             </span>
                         </td>
@@ -131,7 +131,7 @@ include 'includes/header.php';
                         <td><?= format_date($o['order_date']) ?></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="<?= url('admin/order-detail.php?id=' . $o['order_id']) ?>" 
+                                <a href="<?= url('admin/pages/order-detail.php?id=' . $o['order_id']) ?>" 
                                    class="btn btn-info" 
                                    title="Xem chi tiết">
                                     <i class="fas fa-eye"></i>
@@ -146,4 +146,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

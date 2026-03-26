@@ -1,0 +1,290 @@
+.order-detail-page {
+        padding: 40px 0;
+        background: var(--light-beige);
+        min-height: 70vh;
+    }
+    
+    .order-header {
+        background: var(--dark-brown);
+        color: var(--wave-beige);
+        padding: 30px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(94, 58, 33, 0.1);
+    }
+    
+    .order-header h2 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: white;
+    }
+    
+    .order-header .order-date {
+        opacity: 0.9;
+        font-size: 16px;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+    
+    /* Better status colors for bakery */
+    .status-badge.pending { background: #ffeeba; color: #856404; }
+    .status-badge.processing { background: #b8daff; color: #004085; }
+    .status-badge.shipping { background: #cce5ff; color: #004085; }
+    .status-badge.completed { background: #d4edda; color: #155724; }
+    .status-badge.cancelled { background: var(--soft-pink); color: var(--dark-pink); }
+    
+    .info-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(94, 58, 33, 0.08);
+        margin-bottom: 20px;
+        border: 1px solid rgba(94, 58, 33, 0.05);
+    }
+    
+    .info-card h4 {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--dark-brown);
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--wave-beige);
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px dashed var(--wave-beige);
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        color: var(--dark-brown);
+        opacity: 0.8;
+        font-weight: 500;
+    }
+    
+    .info-value {
+        color: var(--dark-brown);
+        font-weight: 600;
+        text-align: right;
+    }
+    
+    .product-item {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+        background: var(--wave-beige);
+        border-radius: 10px;
+        margin-bottom: 15px;
+        transition: all 0.3s;
+        border: 1px solid rgba(94, 58, 33, 0.05);
+    }
+    
+    .product-item:hover {
+        background: #fcf4eb;
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(94, 58, 33, 0.05);
+    }
+    
+    .product-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(94, 58, 33, 0.1);
+        border: 2px solid white;
+    }
+    
+    .product-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .product-name {
+        font-weight: bold;
+        color: var(--dark-brown);
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    .product-name a {
+        color: var(--dark-brown);
+        text-decoration: none;
+    }
+    
+    .product-name a:hover {
+        color: var(--dark-orange);
+    }
+    
+    .product-meta {
+        color: var(--dark-brown);
+        opacity: 0.8;
+        font-size: 14px;
+    }
+    
+    .product-price {
+        text-align: right;
+        align-self: center;
+    }
+    
+    .unit-price {
+        color: var(--dark-brown);
+        opacity: 0.8;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    
+    .subtotal {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--dark-orange);
+    }
+    
+    .order-summary {
+        background: var(--dark-brown);
+        color: var(--wave-beige);
+        padding: 25px;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .summary-row:last-child {
+        border-bottom: none;
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 2px solid rgba(255,255,255,0.2);
+    }
+    
+    .summary-total {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--primary-orange);
+    }
+    
+    .timeline {
+        position: relative;
+        padding: 20px 0;
+    }
+    
+    .timeline-item {
+        position: relative;
+        padding-left: 60px;
+        padding-bottom: 30px;
+    }
+    
+    .timeline-item:last-child {
+        padding-bottom: 0;
+    }
+    
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 30px;
+        bottom: -10px;
+        width: 2px;
+        background: var(--wave-beige);
+    }
+    
+    .timeline-item:last-child::before {
+        display: none;
+    }
+    
+    .timeline-icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        z-index: 1;
+        box-shadow: 0 2px 5px rgba(94, 58, 33, 0.1);
+    }
+    
+    .timeline-icon.active {
+        background: var(--primary-orange);
+        color: white;
+    }
+    
+    .timeline-icon.inactive {
+        background: var(--wave-beige);
+        color: var(--dark-brown);
+        opacity: 0.5;
+    }
+    
+    .timeline-content h5 {
+        font-weight: bold;
+        color: var(--dark-brown);
+        margin-bottom: 5px;
+    }
+    
+    .timeline-content p {
+        color: var(--dark-brown);
+        opacity: 0.8;
+        margin: 0;
+        font-size: 14px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .btn-reorder {
+        background: var(--dark-brown);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .btn-reorder:hover {
+        background: var(--dark-orange);
+        transform: translateY(-2px);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .product-item {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .product-price {
+            text-align: center;
+            align-self: auto;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+    }

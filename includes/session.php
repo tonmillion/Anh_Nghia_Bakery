@@ -136,7 +136,8 @@ function login_user($user) {
  */
 function logout_user() {
     session_destroy_all();
-    redirect(url('user/login.php'));
+    set_flash('success', 'Bạn đã đăng xuất thành công.');
+    redirect(url('index.php'));
 }
 
 /**

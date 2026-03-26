@@ -53,6 +53,10 @@ $stmt = $db -> query("SELECT DATE(order_date) AS date, SUM(total_amount) AS reve
                     ORDER BY date ASC");
 $revenue_by_date = $stmt->fetchAll();
 
+// Trạng thái đơn hàng
+$stmt = $db->query("SELECT order_status, COUNT(*) as count FROM orders GROUP BY order_status");
+$status_data = $stmt->fetchAll();
+
 // Include header
 include 'includes/header.php';
 ?>
@@ -148,7 +152,7 @@ include 'includes/header.php';
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span><i class="fas fa-shopping-bag"></i> Đơn hàng gần đây</span>
-                <a href="<?= url('admin/orders.php') ?>" class="btn btn-sm btn-primary">Xem tất cả</a>
+                <a href="<?= url('admin/pages/orders.php') ?>" class="btn btn-sm btn-primary">Xem tất cả</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -166,7 +170,7 @@ include 'includes/header.php';
                             <?php foreach ($recent_orders as $o): ?>
                             <tr>
                                 <td>
-                                    <a href="<?= url('admin/order-detail.php?id=' . $o['order_id']) ?>">
+                                    <a href="<?= url('admin/pages/order-detail.php?id=' . $o['order_id']) ?>">
                                         <?= htmlspecialchars($o['order_code']) ?>
                                     </a>
                                 </td>
@@ -223,6 +227,7 @@ include 'includes/header.php';
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 // Revenue Chart
 const revenueCtx = document.getElementById('revenueChart').getContext('2d');
 const revenueChart = new Chart(revenueCtx, {
@@ -232,9 +237,9 @@ const revenueChart = new Chart(revenueCtx, {
         datasets: [{
             label: 'Doanh thu',
             data: <?= json_encode(array_column($revenue_by_date, 'revenue')) ?>,
-            borderColor: '#3498db',
-            backgroundColor: 'rgba(52, 152, 219, 0.1)',
-            borderWidth: 2,
+            borderColor: '#e67e22',
+            backgroundColor: 'rgba(230, 126, 34, 0.1)',
+            borderWidth: 3,
             fill: true,
             tension: 0.4
         }]
@@ -261,11 +266,6 @@ const revenueChart = new Chart(revenueCtx, {
 });
 
 // Order Status Chart
-<?php
-$stmt = $db->query("SELECT order_status, COUNT(*) as count FROM orders GROUP BY order_status");
-$status_data = $stmt->fetchAll();
-?>
-
 const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
 const statusChart = new Chart(statusCtx, {
     type: 'doughnut',
@@ -274,12 +274,13 @@ const statusChart = new Chart(statusCtx, {
         datasets: [{
             data: <?= json_encode(array_column($status_data, 'count')) ?>,
             backgroundColor: [
-                '#ffc107',
-                '#2196F3',
-                '#00bcd4',
-                '#4CAF50',
-                '#f44336'
-            ]
+                '#ffc107', /* pending - vàng */
+                '#17a2b8', /* processing - xanh lơ */
+                '#e8a8ba', /* shipping - hồng pastel */
+                '#28a745', /* completed - xanh lá */
+                '#f44336'  /* cancelled - đỏ */
+            ],
+            borderWidth: 0
         }]
     },
     options: {
@@ -291,6 +292,8 @@ const statusChart = new Chart(statusCtx, {
             }
         }
     }
+});
+
 });
 </script>
 

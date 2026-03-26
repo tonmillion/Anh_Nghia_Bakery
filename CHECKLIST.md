@@ -179,14 +179,14 @@
 
 ## ⏳ BƯỚC 8: TÍCH HỢP VNPAY
 
-- [ ] Đăng ký tài khoản VNPay Sandbox
-- [ ] Lấy TMN Code và Hash Secret
-- [ ] `config/vnpay_config.php` - Cấu hình
-- [ ] Tạo URL thanh toán
-- [ ] Xử lý IPN (callback)
-- [ ] Verify checksum
-- [ ] Cập nhật trạng thái thanh toán
-- [ ] Test thanh toán sandbox
+- [x] Đăng ký tài khoản VNPay Sandbox
+- [x] Lấy TMN Code và Hash Secret
+- [x] `config/vnpay_config.php` - Cấu hình
+- [x] Tạo URL thanh toán
+- [x] Xử lý IPN (callback)
+- [x] Verify checksum
+- [x] Cập nhật trạng thái thanh toán
+- [x] Test thanh toán sandbox
 
 ---
 

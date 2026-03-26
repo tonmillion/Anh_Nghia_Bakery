@@ -1,33 +1,18 @@
 <?php
 /**
- * Edit Product page
- * File: admin/product-edit.php
+ * Add product page
+ * File: admin/pages/product-add.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
-$page_title = 'Sửa sản phẩm';
+$page_title = 'Thêm sản phẩm mới';
 
 $product = new Product();
 $category = new Category();
 
-// Lấy product_id từ URL
-$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-
-if ($product_id <= 0) {
-    set_flash('error', 'Sản phẩm không tồn tạii');
-    redirect(url('admin/products.php'));
-}
-
-// Lấy thông tin sản phẩm
-$product_info = $product->getProductById($product_id);
-
-if (!$product_info) {
-    set_flash('error', 'Sản phẩm không tồn tại');
-    redirect(url('admin/products.php'));
-}
-
 $errors = [];
+$success = false;
 
 // Xử lý form submit
 if (is_method('POST')) {
@@ -40,41 +25,41 @@ if (is_method('POST')) {
         'is_active' => isset($_POST['is_active']) ? 1 : 0
     ];
 
-    // Valiadte
+    // Validate
     if (empty($data['product_name'])) {
-        $errors['product_name'] = 'Tên sản phẩm không được để trống';
+        $errors['product_name'] = 'Tên sản phẩm không được để trống.';
     }
 
     if ($data['category_id'] <= 0) {
-        $errors['category_id'] = 'Vui lòng chọn danh mục';
+        $errors['category_id'] = 'Vui lòng chọn danh mục.';
     }
 
-    if ($data['price'] < 0) {
-        $errors['price'] = 'Giá sản phẩm phải lớn hơn hoặc bằng 0';
+    if ($data['price'] <= 0) {
+        $errors['price'] = 'Giá sản phẩm phải lớn hơn 0.';
     }
 
-    //Xử lý upload ảnh mới nếu có
+    // Xử lý upload ảnh
+    $image_path = 'products/default.jpg';
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $uploaded = upload_image($_FILES['image'], 'products', 'product');
         if ($uploaded) {
-            // Xóa ảnh cũ
-            if ($product_info['image_url'] && $product_info['image_url'] != 'product/default.jpg') {
-                delete_file($product_info['image_url']);
-            }
-            $data['image_url'] = $uploaded;
+            $image_path = $uploaded;
+        } else {
+            $errors['image'] = 'Lỗi khi tải ảnh lên.';
         }
-    } else {
-        // Giữ nguyên ảnh cũ
-        $data['image_url'] = $product_info['image_url'];
     }
 
-    // Nếu không có lỗi thì cập nhật
+    $data['image_url'] = $image_path;
+
+    // Nếu không có lỗi thì thêm sản phẩm
     if (empty($errors)) {
-        if ($product->updateProduct($product_id, $data)) {
-            set_flash('success', 'Đã cập nhật sản phẩm thành công');
-            redirect(url('admin/products.php'));
+        $product_id = $product->addProduct($data);
+
+        if ($product_id) {
+            set_flash('success', 'Thêm sản phẩm thành công.');
+            redirect(url('admin/pages/products.php'));
         } else {
-            $errors['general'] = 'Có lỗi xảy ra khi cập nhật sản phẩm';
+            $errors['general'] = 'Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại.';
         }
     }
 }
@@ -83,18 +68,18 @@ if (is_method('POST')) {
 $categories = $category->getAllCategories();
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
     <div class="d-flex justify-content-between align-items-center">
         <div>
-            <h1><i class="fas fa-edit"></i> Sửa sản phẩm</h1>
+            <h1><i class="fas fa-plus-circle"></i> Thêm sản phẩm mới</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="<?= url('admin/index.php') ?>">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="<?= url('admin/products.php') ?>">Sản phẩm</a></li>
-                    <li class="breadcrumb-item active">Sửa</li>
+                    <li class="breadcrumb-item"><a href="<?= url('admin/pages/products.php') ?>">Sản phẩm</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
                 </ol>
             </nav>
         </div>
@@ -122,7 +107,7 @@ include 'includes/header.php';
                         <input type="text" 
                                class="form-control <?= isset($errors['product_name']) ? 'is-invalid' : '' ?>" 
                                name="product_name" 
-                               value="<?= htmlspecialchars($_POST['product_name'] ?? $product_info['product_name']) ?>"
+                               value="<?= $_POST['product_name'] ?? '' ?>"
                                required>
                         <?php if (isset($errors['product_name'])): ?>
                             <div class="invalid-feedback"><?= $errors['product_name'] ?></div>
@@ -138,7 +123,7 @@ include 'includes/header.php';
                             <option value="">-- Chọn danh mục --</option>
                             <?php foreach ($categories as $cat): ?>
                                 <option value="<?= $cat['category_id'] ?>" 
-                                        <?= (isset($_POST['category_id']) ? $_POST['category_id'] : $product_info['category_id']) == $cat['category_id'] ? 'selected' : '' ?>>
+                                        <?= (isset($_POST['category_id']) && $_POST['category_id'] == $cat['category_id']) ? 'selected' : '' ?>>
                                     <?= htmlspecialchars($cat['category_name']) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -153,7 +138,7 @@ include 'includes/header.php';
                         <label class="form-label">Mô tả sản phẩm</label>
                         <textarea class="form-control" 
                                   name="description" 
-                                  rows="5"><?= htmlspecialchars($_POST['description'] ?? $product_info['description']) ?></textarea>
+                                  rows="5"><?= $_POST['description'] ?? '' ?></textarea>
                     </div>
                     
                     <div class="row">
@@ -163,7 +148,7 @@ include 'includes/header.php';
                             <input type="number" 
                                    class="form-control <?= isset($errors['price']) ? 'is-invalid' : '' ?>" 
                                    name="price" 
-                                   value="<?= $_POST['price'] ?? $product_info['price'] ?>"
+                                   value="<?= $_POST['price'] ?? '' ?>"
                                    min="0"
                                    step="1000"
                                    required>
@@ -178,7 +163,7 @@ include 'includes/header.php';
                             <input type="number" 
                                    class="form-control" 
                                    name="stock_quantity" 
-                                   value="<?= $_POST['stock_quantity'] ?? $product_info['stock_quantity'] ?>"
+                                   value="<?= $_POST['stock_quantity'] ?? 0 ?>"
                                    min="0">
                         </div>
                     </div>
@@ -194,22 +179,20 @@ include 'includes/header.php';
                     <i class="fas fa-image"></i> Hình ảnh sản phẩm
                 </div>
                 <div class="card-body">
-                    <!-- Ảnh hiện tại -->
-                    <div class="mb-3 text-center">
-                        <img src="<?= upload($product_info['image_url']) ?>" 
-                             id="currentImage"
-                             style="max-width: 100%; border-radius: 5px;"
-                             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-                    </div>
-                    
                     <div class="mb-3">
-                        <label class="form-label">Thay đổi hình ảnh</label>
                         <input type="file" 
                                class="form-control" 
                                name="image" 
                                accept="image/*"
                                onchange="previewImage(event)">
-                        <small class="text-muted">Để trống nếu không muốn thay đổi</small>
+                        <small class="text-muted">Chấp nhận: JPG, PNG, GIF. Tối đa 5MB</small>
+                        <?php if (isset($errors['image'])): ?>
+                            <div class="text-danger mt-2"><?= $errors['image'] ?></div>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div id="imagePreview" class="text-center" style="display: none;">
+                        <img id="preview" src="" style="max-width: 100%; border-radius: 12px; border: 2px dashed rgba(94, 58, 33, 0.2);">
                     </div>
                 </div>
             </div>
@@ -225,7 +208,7 @@ include 'includes/header.php';
                                type="checkbox" 
                                name="is_active" 
                                id="is_active"
-                               <?= (isset($_POST['is_active']) ? $_POST['is_active'] : $product_info['is_active']) ? 'checked' : '' ?>>
+                               checked>
                         <label class="form-check-label" for="is_active">
                             Hiển thị sản phẩm
                         </label>
@@ -237,10 +220,10 @@ include 'includes/header.php';
             <div class="card">
                 <div class="card-body">
                     <button type="submit" class="btn btn-primary w-100 mb-2">
-                        <i class="fas fa-save"></i> Cập nhật sản phẩm
+                        <i class="fas fa-save"></i> Lưu sản phẩm
                     </button>
-                    <a href="<?= url('admin/products.php') ?>" class="btn btn-secondary w-100">
-                        <i class="fas fa-arrow-left"></i> Quay lại
+                    <a href="<?= url('admin/pages/products.php') ?>" class="btn btn-secondary w-100">
+                        <i class="fas fa-times"></i> Hủy bỏ
                     </a>
                 </div>
             </div>
@@ -250,17 +233,21 @@ include 'includes/header.php';
 
 <script>
 function previewImage(event) {
-    const preview = document.getElementById('currentImage');
-    const file = event.target.files[0];
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('imagePreview');
     
+    const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
             preview.src = e.target.result;
+            previewContainer.style.display = 'block';
         }
         reader.readAsDataURL(file);
     }
 }
 </script>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>
+
+

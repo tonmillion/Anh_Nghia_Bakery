@@ -1,10 +1,10 @@
 <?php
 /**
  * Products mângement
- * File: admin/products.php
+ * File: admin/pages/products.php
  */
 
-require_once '../includes/init.php';
+require_once '../../includes/init.php';
 
 $page_title = 'Quản lý sản phẩm';
 
@@ -19,7 +19,7 @@ if (isset($_GET['delete'])) {
     } else {
         set_flash('error', 'Không thể xóa sản phẩm');
     }
-    redirect(url('admin/products.php'));
+    redirect(url('admin/pages/products.php'));
 }
 
 // Lấy danh sách sản phẩm
@@ -27,7 +27,7 @@ $products = $product->getProducts(1000, 0, []); // Lấy nhiều để hiển th
 $category = $category->getAllCategories();
 
 // Include header
-include 'includes/header.php';
+include '../includes/header.php';
 ?>
 
 <div class="page-header">
@@ -42,7 +42,7 @@ include 'includes/header.php';
             </nav>
         </div>
         <div>
-            <a href="<?= url('admin/product-add.php') ?>" class="btn btn-primary">
+            <a href="<?= url('admin/pages/product-add.php') ?>" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Thêm sản phẩm mới
             </a>
         </div>
@@ -86,7 +86,7 @@ include 'includes/header.php';
                         <td><?= format_currency($p['price']) ?></td>
                         <td>
                             <?php if ($p['stock_quantity'] < 10): ?>
-                                <span class="badge bg-warning"><?= $p['stock_quantity'] ?></span>
+                                <span class="badge rounded-pill bg-warning"><?= $p['stock_quantity'] ?></span>
                             <?php else: ?>
                                 <?= $p['stock_quantity'] ?>
                             <?php endif; ?>
@@ -94,14 +94,14 @@ include 'includes/header.php';
                         <td><?= $p['sold_count'] ?></td>
                         <td>
                             <?php if ($p['is_active']): ?>
-                                <span class="badge bg-success">Đang bán</span>
+                                <span class="badge rounded-pill bg-success">Đang bán</span>
                             <?php else: ?>
-                                <span class="badge bg-secondary">Ẩn</span>
+                                <span class="badge rounded-pill bg-secondary">Ẩn</span>
                             <?php endif; ?>
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <a href="<?= url('admin/product-edit.php?id=' . $p['product_id']) ?>" 
+                                <a href="<?= url('admin/pages/product-edit.php?id=' . $p['product_id']) ?>" 
                                    class="btn btn-info" title="Sửa">
                                     <i class="fas fa-edit"></i>
                                 </a>
@@ -127,4 +127,4 @@ include 'includes/header.php';
     </div>
 </div>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

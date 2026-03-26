@@ -21,7 +21,19 @@ if (!$user_info) {
 }
           
 $errors = [];
-$succcess = false;
+$success = false;
+
+$active_tab = 'info'; // Tab mặc định
+if (isset($_GET['tab']) && in_array($_GET['tab'], ['info', 'password', 'orders'])) {
+    $active_tab = $_GET['tab'];
+}
+if (is_method('POST')) {
+    if (isset($_POST['change_password'])) {
+        $active_tab = 'password';
+    } elseif (isset($_POST['update_profile'])) {
+        $active_tab = 'info';
+    }
+}
 
 // Xử lý cập nhật thông tin
 if (is_method('POST') && isset($_POST['update_profile'])) {
@@ -49,9 +61,8 @@ if (is_method('POST') && isset($_POST['update_profile'])) {
     if (empty($errors)) {
         if ($user->updateProfile($user_id, $data)) {
             set_flash('success', 'Cập nhật thông tin thành công!');
-            $success = true;
-            // Reload lại thông tin
-            $user_info = $user->getUserById($user_id);
+            redirect(url('user/pages/account.php?tab=info'));
+            exit;
         } else {
             $errors['general'] = 'Có lỗi xảy ra, vui lòng thử lại';
         }
@@ -79,77 +90,23 @@ if (is_method('POST') && isset($_POST['change_password'])) {
 
         if ($result['success']) {
             set_flash('success', $result['message']);
-            $success = true;
+            redirect(url('user/pages/account.php?tab=password'));
+            exit;
         } else {
             $errors['password_general'] = $result['message'];
         }
     }
 }
 
-$page_title = 'Thông tin tài khoản'
+// $page_title = 'Thông tin tài khoản'
+$page_title = 'Thông tin tài khoản - ' . SITE_NAME;
+
+include '../../includes/layouts/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $page_title ?> - <?= SITE_NAME ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background: #f8f9fa;
-        }
-        .account-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 0;
-            margin-bottom: 30px;
-        }
-        .account-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 15px 50px;
-        }
-        .account-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        .account-card h4 {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
-        }
-        .nav-pills .nav-link {
-            color: #666;
-        }
-        .nav-pills .nav-link.active {
-            background: #667eea;
-        }
-        .badge-role {
-            background: #ffc107;
-            color: #333;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-        }
-        .btn-edit {
-            background: #667eea;
-            border: none;
-            color: white;
-        }
-        .btn-edit:hover {
-            background: #5568d3;
-            color: white;
-        }
-    </style>
-</head>
-<body>
+<link rel="stylesheet" href="<?= url('user/css/account.css') ?>?v=<?= time() ?>">
+
+<div class="account-page">
 
 <div class="account-header">
     <div class="container">
@@ -161,7 +118,7 @@ $page_title = 'Thông tin tài khoản'
                 <?php endif; ?>
             </div>
             <div>
-                <a href="<?= url('index.php') ?>" class="btn btn-light">
+                <a href="<?= url('index.php') ?>" class="btn btn-outline-secondary" style="border-radius:30px; font-weight:bold;">
                     <i class="fas fa-home"></i> Trang chủ
                 </a>
             </div>
@@ -184,17 +141,17 @@ $page_title = 'Thông tin tài khoản'
     <!-- Navigation Tabs -->
     <ul class="nav nav-pills mb-3" id="accountTab" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="info-tab" data-bs-toggle="pill" data-bs-target="#info" type="button">
+            <button class="nav-link <?= $active_tab === 'info' ? 'active' : '' ?>" id="info-tab" data-bs-toggle="pill" data-bs-target="#info" type="button">
                 <i class="fas fa-info-circle"></i> Thông tin cá nhân
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="password-tab" data-bs-toggle="pill" data-bs-target="#password" type="button">
+            <button class="nav-link <?= $active_tab === 'password' ? 'active' : '' ?>" id="password-tab" data-bs-toggle="pill" data-bs-target="#password" type="button">
                 <i class="fas fa-key"></i> Đổi mật khẩu
             </button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="orders-tab" data-bs-toggle="pill" data-bs-target="#orders" type="button">
+            <button class="nav-link <?= $active_tab === 'orders' ? 'active' : '' ?>" id="orders-tab" data-bs-toggle="pill" data-bs-target="#orders" type="button">
                 <i class="fas fa-shopping-bag"></i> Đơn hàng của tôi
             </button>
         </li>
@@ -204,7 +161,7 @@ $page_title = 'Thông tin tài khoản'
     <div class="tab-content" id="accountTabContent">
         
         <!-- Thông tin cá nhân -->
-        <div class="tab-pane fade show active" id="info" role="tabpanel">
+        <div class="tab-pane fade <?= $active_tab === 'info' ? 'show active' : '' ?>" id="info" role="tabpanel">
             <div class="account-card">
                 <h4><i class="fas fa-user"></i> Thông Tin Cá Nhân</h4>
                 
@@ -283,7 +240,7 @@ $page_title = 'Thông tin tài khoản'
         </div>
 
         <!-- Đổi mật khẩu -->
-        <div class="tab-pane fade" id="password" role="tabpanel">
+        <div class="tab-pane fade <?= $active_tab === 'password' ? 'show active' : '' ?>" id="password" role="tabpanel">
             <div class="account-card">
                 <h4><i class="fas fa-lock"></i> Đổi Mật Khẩu</h4>
                 
@@ -336,7 +293,7 @@ $page_title = 'Thông tin tài khoản'
         </div>
 
         <!-- Đơn hàng -->
-        <div class="tab-pane fade" id="orders" role="tabpanel">
+        <div class="tab-pane fade <?= $active_tab === 'orders' ? 'show active' : '' ?>" id="orders" role="tabpanel">
             <div class="account-card">
                 <h4><i class="fas fa-shopping-bag"></i> Đơn Hàng Của Tôi</h4>
                 
@@ -405,7 +362,6 @@ $page_title = 'Thông tin tài khoản'
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 
-</body>
-</html>
+<?php include '../../includes/layouts/footer.php'; ?>
